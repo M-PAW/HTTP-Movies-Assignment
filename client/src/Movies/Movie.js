@@ -3,7 +3,7 @@ import axios from 'axios';
 import { useRouteMatch } from 'react-router-dom';
 import MovieCard from './MovieCard';
 
-function Movie({ addToSavedList }) {
+function Movie({ addToSavedList }, props) {
   const [movie, setMovie] = useState(null);
   const match = useRouteMatch();
 
@@ -18,9 +18,13 @@ function Movie({ addToSavedList }) {
     addToSavedList(movie);
   };
 
+  console.log(movie);
+
   useEffect(() => {
     fetchMovie(match.params.id);
   }, [match.params.id]);
+
+  // const handleUpdate
 
   if (!movie) {
     return <div>Loading movie information...</div>;

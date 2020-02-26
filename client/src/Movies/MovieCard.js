@@ -14,6 +14,7 @@ const MovieCard = props => {
       <h3>Actors</h3>
 
       {stars.map(star => (
+        
         <div key={star} className="movie-star">
           {star}
         </div>

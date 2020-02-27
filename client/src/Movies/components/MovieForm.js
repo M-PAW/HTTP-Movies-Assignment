@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-import Axios from 'axios';
+import axios from 'axios';
 
 const initalState = {
-    id: '',
+    id: Date.now(),
     title: '',
     director: '',
     metascore: '',
@@ -14,50 +14,78 @@ const MovieForm = props => {
     const [movieData, setMovieData] = useState(initalState);
     const { id } = useParams();
 
+    useEffect(() => {
+        const itemToUpdate = props.movies.find(movie => `${movie.id}` === id);
+    
+        if (itemToUpdate) {
+          setMovieData(itemToUpdate);
+        }
+      }, [props.movies, id]);
+
     const changeHandler = e => {
-        setMovieData()
+        // e.persist();
+        setMovieData({...movieData, [e.target.name]: e.target.value})
     }
 
-    handleSubmit = e => {
-        e.preventDefault
-    }
+    const handleSubmit = e => {
+        e.preventDefault();
+        // make a PUT request to edit the item
+        axios
+          .put(`http://localhost:5000/api/movies/${movieData.id}`, movieData)
+          .then(res => {
+            // res.data is the FULL array with the updated item
+            // That's not always the case. Sometimes you need to build your
+            // own updated array
+            props.getMovieList(res.data);
+            props.history.push(`/`);
+          })
+          .catch(err => console.log(err));
+          setMovieData( {
+            id: '',
+            title: '',
+            director: '',
+            metascore: '',
+            stars: [],
+
+          } )
+      };
 
     return (
 
         <div>
-            <form>
+            <form onSubmit={handleSubmit}>
                 <input 
                 type='text'
                 name='title'
-                value={setMovieData.title}
-                placeholder='Title' 
-                onChange={handleSubmit}
+                value={movieData.title}
+                placeholder='title'
+                onChange={changeHandler}
                 />
 
                 <input 
                 type='text'
                 name='direcctor'
-                value={setMovieData.director}
+                value={movieData.director}
                 placeholder='Director' 
-                onChange={handleSubmit}
+                onChange={changeHandler}
                 />
 
                 <input 
                 type='text'
                 name='metascore'
-                value={setMovieData.metascore}
+                value={movieData.metascore}
                 placeholder='Metascore' 
-                onChange={handleSubmit}
+                onChange={changeHandler}
                 />
 
                 <input 
                 type='text'
                 name='stars'
-                value={setMovieData.stars}
+                value={movieData.stars}
                 placeholder='Stars' 
-                onChange={handleSubmit}
+                onChange={changeHandler}
                 />
-                <button value={handleSubmit}>Sumbit</button>
+                <button>Sumbit</button>
             </form>
         </div>
     )

@@ -14,64 +14,53 @@ const MovieForm = props => {
     const [movieData, setMovieData] = useState(initalState);
     const { id } = useParams();
 
-const handleChanges = e => {
-    setUpdates({
-        ...updateMovie,
-        [e.target.name]: e.target.value
-    })
-}
+    const changeHandler = e => {
+        setMovieData()
+    }
 
-const updateMovie = () => {
-    e.preventDefault()
-    Axios
-        .get(`http://localhost:500/api/movies/${props.movie.id}`, update )
-        .then( res => {
-            console.log(res)
-            props.history.push(`/update-movie/${movie.id}`)
-        })
-        .catch(err => { console.log(err) });
-        
-}
+    handleSubmit = e => {
+        e.preventDefault
+    }
 
-return (
+    return (
 
-    <div>
-        <form>
-            <input 
-              type='text'
-              name='title'
-              value={setMovie.title}
-              placeholder='Title' 
-              onChange={handleSubmit}
-            />
+        <div>
+            <form>
+                <input 
+                type='text'
+                name='title'
+                value={setMovieData.title}
+                placeholder='Title' 
+                onChange={handleSubmit}
+                />
 
-            <input 
-              type='text'
-              name='direcctor'
-              value={setMovie.director}
-              placeholder='Director' 
-              onChange={handleSubmit}
-            />
+                <input 
+                type='text'
+                name='direcctor'
+                value={setMovieData.director}
+                placeholder='Director' 
+                onChange={handleSubmit}
+                />
 
-            <input 
-              type='text'
-              name='metascore'
-              value={setMovie.metascore}
-              placeholder='Metascore' 
-              onChange={handleSubmit}
-            />
+                <input 
+                type='text'
+                name='metascore'
+                value={setMovieData.metascore}
+                placeholder='Metascore' 
+                onChange={handleSubmit}
+                />
 
-            <input 
-              type='text'
-              name='stars'
-              value={setMovie.stars}
-              placeholder='Stars' 
-              onChange={handleSubmit}
-            />
-            <button value={e.target.value}>Sumbit</button>
-        </form>
-    </div>
-)
+                <input 
+                type='text'
+                name='stars'
+                value={setMovieData.stars}
+                placeholder='Stars' 
+                onChange={handleSubmit}
+                />
+                <button value={handleSubmit}>Sumbit</button>
+            </form>
+        </div>
+    )
 }
 
 export default MovieForm;
